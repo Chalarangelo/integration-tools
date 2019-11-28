@@ -20,5 +20,12 @@
   "bugs": {
     "url": "https://github.com/30-seconds/integration-tools/issues"
   },
-  "homepage": "https://github.com/30-seconds/integration-tools#readme"
+  "homepage": "https://github.com/30-seconds/integration-tools#readme",
+  "dependencies": {
+    "fs-extra": "^8.1.0",
+    "kleur": "^3.0.3"
+  },
+  "devDependencies": {
+    "eslint": "^6.7.1"
+  }
 }
