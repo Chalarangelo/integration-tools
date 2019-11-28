@@ -26,6 +26,7 @@
     "kleur": "^3.0.3"
   },
   "devDependencies": {
+    "babel-eslint": "^10.0.3",
     "eslint": "^6.7.1"
   }
 }
