@@ -1,1 +1,5 @@
-export default null;
+const extract = require('./lib/extract');
+
+module.exports = {
+  extract,
+};
