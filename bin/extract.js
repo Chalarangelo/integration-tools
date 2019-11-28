@@ -29,7 +29,7 @@ try {
     )} Extraction procedure has loaded the configuration file.`
   );
 } catch (err) {
-  console.log(`${red('integration-tools [ERRR]  ')} Extraction prodecure has an encountered an error while loading the configuration file: ${err}`);
+  console.log(`${red('integration-tools [ERRR]  ')} Extraction prodecure has encountered an error while loading the configuration file: ${err}`);
   process.exit(1);
 }
 
