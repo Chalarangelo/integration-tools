@@ -1,0 +1,24 @@
+{
+  "name": "integration-tools",
+  "version": "1.0.0",
+  "description": "Integration tools for 30-seconds projects.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/30-seconds/integration-tools.git"
+  },
+  "keywords": [
+    "tools",
+    "integrations",
+    "30-seconds"
+  ],
+  "author": "30-seconds (30secondsofcode@gmail.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/30-seconds/integration-tools/issues"
+  },
+  "homepage": "https://github.com/30-seconds/integration-tools#readme"
+}
