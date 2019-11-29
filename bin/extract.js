@@ -17,6 +17,8 @@ const DEFAULT_CONFIG = {
   snippetDataPath: 'snippet_data',
   snippetFilename: 'snippets.json',
   snippetListFilename: 'snippetList.json',
+  snippetArchiveFilename: 'archivedSnippets.json',
+  snippetArchiveListFilename: 'archivedSnippetList.json',
 };
 let config;
 
