@@ -1,6 +1,9 @@
 const util = require('../lib/util');
 let child_process = require('child_process');
+let fs = require('fs-extra');
+
 jest.mock('child_process');
+jest.mock('fs-extra');
 
 describe('lib/util', () => {
   describe('environmentCheck', () => {
@@ -230,7 +233,23 @@ describe('lib/util', () => {
     });
 
     describe('getData', () => {
+      let calls = [];
 
+      beforeAll(() => {
+        // eslint-disable-next-line camelcase
+        fs.readFileSync
+          .mockImplementation(
+            snippetName => {
+              calls.push(snippetName);
+              return '';
+            }
+          );
+      });
+
+      it('reads the correct file and returns the data', () => {
+        util.getData('snippets', 'mySnippet');
+        expect(calls[0]).toBe('snippets/mySnippet');
+      });
     });
 
     it('hashData is a function', () => {
@@ -261,7 +280,98 @@ describe('lib/util', () => {
     });
 
     describe('getCodeBlocks', () => {
+      it('returns the code blocks when there is a single language', () => {
+        const mySnippetLines = [
+          'This is a snippet with a description.',
+          '',
+          'This is the explanation.',
+          '```js',
+          'Here we have some code',
+          '```',
+          '',
+          '```js',
+          'And an example',
+          '```',
+        ];
+        const mySnippet = mySnippetLines.join('\n');
+        const mySnippetCode = {
+          code: 'Here we have some code',
+          example: 'And an example',
+        };
+        const myConfig = {
+          language: {
+            short: 'js',
+          },
+        };
 
+        expect(util.getCodeBlocks(mySnippet, myConfig)).toEqual(mySnippetCode);
+      });
+
+      it('returns the code blocks when an optional language is added', () => {
+        const mySnippetLines = [
+          'This is a snippet with a description.',
+          '',
+          'This is the explanation.',
+          '```css',
+          'This is an optional language code',
+          '```',
+          '',
+          '```js',
+          'Here we have some code',
+          '```',
+          '',
+          '```js',
+          'And an example',
+          '```',
+        ];
+        const mySnippet = mySnippetLines.join('\n');
+        const mySnippetCode = {
+          style: 'This is an optional language code',
+          code: 'Here we have some code',
+          example: 'And an example',
+        };
+        const myConfig = {
+          language: {
+            short: 'js',
+          },
+          optionalLanguage: {
+            short: 'css',
+          },
+        };
+
+        expect(util.getCodeBlocks(mySnippet, myConfig)).toEqual(mySnippetCode);
+      });
+
+      it('returns the code blocks when an optional language exists but has no code block', () => {
+        const mySnippetLines = [
+          'This is a snippet with a description.',
+          '',
+          'This is the explanation.',
+          '```js',
+          'Here we have some code',
+          '```',
+          '',
+          '```js',
+          'And an example',
+          '```',
+        ];
+        const mySnippet = mySnippetLines.join('\n');
+        const mySnippetCode = {
+          style: '',
+          code: 'Here we have some code',
+          example: 'And an example',
+        };
+        const myConfig = {
+          language: {
+            short: 'js',
+          },
+          optionalLanguage: {
+            short: 'css',
+          },
+        };
+
+        expect(util.getCodeBlocks(mySnippet, myConfig)).toEqual(mySnippetCode);
+      });
     });
 
     it('getTextualContent is a function', () => {
