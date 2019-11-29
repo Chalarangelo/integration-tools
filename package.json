@@ -4,7 +4,7 @@
   "description": "Integration tools for 30-seconds projects.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -32,9 +32,11 @@
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
-    "eslint": "^6.7.1"
+    "eslint": "^6.7.1",
+    "jest": "^24.9.0"
   },
   "bin": {
-    "extract": "./bin/extract.js"
+    "extract": "./bin/extract.js",
+    "build": "./bin/build.js"
   }
 }
