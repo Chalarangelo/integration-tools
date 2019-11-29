@@ -23,10 +23,12 @@
   "homepage": "https://github.com/30-seconds/integration-tools#readme",
   "dependencies": {
     "@babel/core": "^7.7.4",
+    "caniuse-db": "^1.0.30001012",
     "front-matter": "^3.0.2",
     "fs-extra": "^8.1.0",
     "kleur": "^3.0.3",
-    "markdown-builder": "^0.9.0"
+    "markdown-builder": "^0.9.0",
+    "node-sass": "^4.13.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
