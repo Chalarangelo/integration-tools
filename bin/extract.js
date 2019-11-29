@@ -3,6 +3,7 @@
 const path = require('path');
 const { extract } = require('../index');
 const { blue, green, red } = require('kleur');
+const { DEFAULT_CONFIG } = require('../params');
 
 // Log a message when the script is run
 console.log(
@@ -11,15 +12,6 @@ console.log(
   )} Extraction procedure starting...`
 );
 
-
-const DEFAULT_CONFIG = {
-  snippetPath: 'snippets',
-  snippetDataPath: 'snippet_data',
-  snippetFilename: 'snippets.json',
-  snippetListFilename: 'snippetList.json',
-  snippetArchiveFilename: 'archivedSnippets.json',
-  snippetArchiveListFilename: 'archivedSnippetList.json',
-};
 let config;
 
 // Load configuration and log a message when done or on error.
@@ -36,7 +28,6 @@ try {
 }
 
 extract(Object.assign({}, DEFAULT_CONFIG, config ));
-
 
 console.log(
   `${blue(
