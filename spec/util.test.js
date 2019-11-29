@@ -1,4 +1,6 @@
 const util = require('../lib/util');
+let child_process = require('child_process');
+jest.mock('child_process');
 
 describe('lib/util', () => {
   describe('environmentCheck', () => {
@@ -211,7 +213,130 @@ describe('lib/util', () => {
         const outData = util.prepTaggedData(tagDbData);
         expect(outData).toEqual(['object', 'utility', 'uncategorized']);
       });
+    });
+  });
+
+  describe('snippetParser', () => {
+    it('getFilesInDir is a function', () => {
+      expect(util.getFilesInDir).toBeInstanceOf(Function);
+    });
+
+    describe('getFilesInDir', () => {
 
     });
+
+    it('getData is a function', () => {
+      expect(util.getData).toBeInstanceOf(Function);
+    });
+
+    describe('getData', () => {
+
+    });
+
+    it('hashData is a function', () => {
+      expect(util.hashData).toBeInstanceOf(Function);
+    });
+
+    describe('hashData', () => {
+      it('creates a hash for the given value', () => {
+        const input = 'Lorem ipsum';
+        const output = 'a9a66978f378456c818fb8a3e7c6ad3d2c83e62724ccbdea7b36253fb8df5edd';
+        expect(util.hashData(input)).toBe(output);
+      });
+
+    });
+
+    it('getId is a function', () => {
+      expect(util.getId).toBeInstanceOf(Function);
+    });
+
+    describe('getId', () => {
+      it('returns the expected id value', () => {
+        expect(util.getId('mySnippet.md')).toBe('mySnippet');
+      });
+    });
+
+    it('getCodeBlocks is a function', () => {
+      expect(util.getCodeBlocks).toBeInstanceOf(Function);
+    });
+
+    describe('getCodeBlocks', () => {
+
+    });
+
+    it('getTextualContent is a function', () => {
+      expect(util.getTextualContent).toBeInstanceOf(Function);
+    });
+
+    describe('getTextualContent', () => {
+      it('returns the textual content of a snippet', () => {
+        const mySnippetLines = [
+          'This is a snippet with a description.',
+          '',
+          'This is the explanation.',
+          '```',
+          'Here we have some code',
+          '```',
+        ];
+        const mySnippet = mySnippetLines.join('\n');
+        const mySnippeText = 'This is a snippet with a description.\n\nThis is the explanation.\n';
+
+        expect(util.getTextualContent(mySnippet)).toBe(mySnippeText);
+      });
+    });
+
+    it('getGitMetadata is a function', () => {
+      expect(util.getGitMetadata).toBeInstanceOf(Function);
+    });
+
+    describe('getGitMetadata', () => {
+      let calls = [];
+      let outputData = {};
+
+      beforeAll(() => {
+        // eslint-disable-next-line camelcase
+        child_process.execSync
+          .mockImplementation(
+            command => {
+              calls.push(command);
+              return command;
+            }
+          );
+
+        outputData = util.getGitMetadata('mySnippet.md');
+      });
+
+      it('runs the correct git commands', () => {
+        expect(calls[0]).toBe('git log --diff-filter=A --pretty=format:%at -- snippets/mySnippet.md');
+        expect(calls[1]).toBe('git log -n 1 --pretty=format:%at -- snippets/mySnippet.md');
+        expect(calls[2]).toBe('git log --pretty=%H -- snippets/mySnippet.md');
+        expect(calls[3]).toBe('git log --pretty=%an -- snippets/mySnippet.md');
+      });
+
+      it('returns an object with the correct keys', () => {
+        expect(Object.keys(outputData).sort()).toEqual([
+          'firstSeen', 'lastUpdated', 'updateCount', 'authorCount',
+        ].sort());
+      });
+    });
+
+    it('getTags is a function', () => {
+      expect(util.getTags).toBeInstanceOf(Function);
+    });
+
+    describe('getTags', () => {
+      it('returns an array of tags', () => {
+        expect(util.getTags('array,function, object')).toEqual(['array', 'function', 'object']);
+      });
+    });
+
+    it('readSnippets is a function', () => {
+      expect(util.readSnippets).toBeInstanceOf(Function);
+    });
+
+    describe('readSnippets', () => {
+
+    });
+
   });
 });
