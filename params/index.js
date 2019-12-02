@@ -8,8 +8,7 @@ const DEFAULT_CONFIG = {
   language: {
     short: '',
     long: '',
-  },
-  staticPartsPath: 'src/static-parts',  // TODO: Maybe remove src?
+  }
 };
 
 module.exports = {

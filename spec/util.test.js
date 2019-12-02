@@ -445,7 +445,7 @@ describe('lib/util', () => {
             }
           );
 
-        outputData = util.getGitMetadata('mySnippet.md');
+        outputData = util.getGitMetadata('mySnippet.md', 'snippets');
       });
 
       it('runs the correct git commands', () => {
@@ -469,6 +469,12 @@ describe('lib/util', () => {
     describe('getTags', () => {
       it('returns an array of tags', () => {
         expect(util.getTags('array,function, object')).toEqual(['array', 'function', 'object']);
+      });
+    });
+
+    describe('getTags', () => {
+      it('deduplicates tags', () => {
+        expect(util.getTags('array,function,array, object')).toEqual(['array', 'function', 'object']);
       });
     });
 
