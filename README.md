@@ -1,4 +1,4 @@
-[![Logo](/assets/logo.png)](https://30secondsofcode.org/)
+[![Logo](/logo.png)](https://30secondsofcode.org/)
 
 # 30 seconds integration tools
 
