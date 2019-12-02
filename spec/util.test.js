@@ -225,7 +225,40 @@ describe('lib/util', () => {
     });
 
     describe('getFilesInDir', () => {
+      let calls = [];
+      const mySnippets = [
+        'mySnippetC.md',
+        'mySnippetA.md',
+        'mySnippetB.md',
+      ];
 
+      beforeAll(() => {
+        fs.readdirSync
+          .mockImplementation(
+            dirPath => {
+              calls.push(dirPath);
+              return mySnippets;
+            }
+          );
+      });
+
+      it('reads the contents of the given directory', () => {
+        let myData = util.getFilesInDir('myDir', false, null);
+        expect(calls[0]).toBe('myDir');
+        expect(myData.sort()).toEqual(mySnippets.sort());
+      });
+
+      it('excludes the specified files', () => {
+        let myData = util.getFilesInDir('myDir', false, ['mySnippetA.md']);
+        expect(myData.sort()).toEqual([
+          'mySnippetB.md', 'mySnippetC.md',
+        ].sort());
+      });
+
+      it('returns files with directory path when withPath is true', () => {
+        let myData = util.getFilesInDir('myDir', true, null);
+        expect(myData.sort()).toEqual(mySnippets.map(v => `myDir/${v}`).sort());
+      });
     });
 
     it('getData is a function', () => {
@@ -236,7 +269,6 @@ describe('lib/util', () => {
       let calls = [];
 
       beforeAll(() => {
-        // eslint-disable-next-line camelcase
         fs.readFileSync
           .mockImplementation(
             snippetName => {
@@ -445,7 +477,95 @@ describe('lib/util', () => {
     });
 
     describe('readSnippets', () => {
+      let calls = [];
+      const mySnippets = [
+        'mySnippetA.md',
+      ];
+      const mySnippetLines = [
+        '---',
+        'title: mySnippet',
+        'tags: array,function',
+        '---',
+        '',
+        'This is a snippet with a description.',
+        '',
+        'This is the explanation.',
+        '```js',
+        'Here we have some code',
+        '```',
+        '',
+        '```js',
+        'And an example',
+        '```',
+      ];
+      const mySnippet = mySnippetLines.join('\n');
+      const mySnippeText = 'This is a snippet with a description.\n\nThis is the explanation.\n';
+      const mySnippetCode = {
+        code: 'Here we have some code',
+        example: 'And an example',
+      };
+      const myConfig = {
+        language: {
+          short: 'js',
+        },
+      };
+      let myData;
 
+      beforeAll(() => {
+        fs.readdirSync
+          .mockImplementation(
+            dirPath => {
+              calls.push(dirPath);
+              return mySnippets;
+            }
+          );
+
+        fs.readFileSync
+          .mockImplementation(
+            snippetName => {
+              calls.push(snippetName);
+              return mySnippet;
+            }
+          );
+
+        // eslint-disable-next-line camelcase
+        child_process.execSync
+          .mockImplementation(
+            command => {
+              calls.push(command);
+              return command;
+            }
+          );
+
+        myData = util.readSnippets('myDir', myConfig);
+      });
+
+      it('reads data from the directory', () => {
+        expect(calls).toContain('myDir');
+      });
+
+      it('gets data for the snippets', () => {
+        expect(calls).toContain('myDir/mySnippetA.md');
+      });
+
+      it('returns an object with appropriate keys', () => {
+        expect(myData['mySnippetA.md']).toBeInstanceOf(Object);
+      });
+
+      it('returns appropriate snippet data', () => {
+        let mySnippetResults = myData['mySnippetA.md'];
+        expect(mySnippetResults.id).toBe('mySnippetA');
+        expect(mySnippetResults.title).toBe('mySnippet');
+        expect(mySnippetResults.attributes.fileName).toBe('mySnippetA.md');
+        expect(mySnippetResults.attributes.text).toBe(mySnippeText);
+        expect(mySnippetResults.attributes.codeBlocks).toEqual(mySnippetCode);
+        expect(mySnippetResults.attributes.tags).toEqual(['array', 'function']);
+        expect(mySnippetResults.meta.hash).toBe('a032156faeb3dc09f764058d2da93be276d9fee7117b67bf73302a3d55490459');
+        expect(Object.keys(mySnippetResults.meta)).toContain('firstSeen');
+        expect(Object.keys(mySnippetResults.meta)).toContain('lastUpdated');
+        expect(Object.keys(mySnippetResults.meta)).toContain('updateCount');
+        expect(Object.keys(mySnippetResults.meta)).toContain('authorCount');
+      });
     });
 
   });
