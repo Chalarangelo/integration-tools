@@ -35,6 +35,7 @@
     "jest": "^24.9.0"
   },
   "bin": {
-    "extract-snippet-data": "./bin/extract.js"
+    "extract-snippet-data": "./bin/extract.js",
+    "init-content-repo": "./bin/init.js"
   }
 }
