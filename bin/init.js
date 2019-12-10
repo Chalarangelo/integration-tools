@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 
-const { blue, green, red } = require('kleur');
+const inquirer = require('inquirer');
+const { blue } = require('kleur');
+const questions = require('../lib/getRepoParams');
+const initialize = require('../lib/init.js');
 
 // Log a message when the script is run
 console.log(
@@ -9,9 +12,15 @@ console.log(
   )} Initialization procedure starting...`
 );
 
-
-console.log(
-  `${blue(
-    'integration-tools [EXIT] '
-  )} Initialization procedure exiting...`
-);
+inquirer
+  .prompt(questions)
+  .then(
+    answers => {
+      initialize(answers, process.cwd());
+      console.log(
+        `${blue(
+          'integration-tools [EXIT] '
+        )} Initialization procedure exiting...`
+      );
+    }
+  );
