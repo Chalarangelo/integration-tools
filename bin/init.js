@@ -16,7 +16,7 @@ inquirer
   .prompt(questions)
   .then(
     answers => {
-      initialize(answers, process.cwd());
+      initialize(answers, process.cwd(), __dirname);
       console.log(
         `${blue(
           'integration-tools [EXIT] '
