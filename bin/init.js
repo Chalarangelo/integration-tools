@@ -3,7 +3,7 @@
 const inquirer = require('inquirer');
 const { blue } = require('kleur');
 const questions = require('../lib/getRepoParams');
-const initialize = require('../lib/init.js');
+const { initialize } = require('../index.js');
 
 // Log a message when the script is run
 console.log(

@@ -37,6 +37,7 @@
   },
   "bin": {
     "extract-snippet-data": "./bin/extract.js",
-    "init-content-repo": "./bin/init.js"
+    "init-content-repo": "./bin/init.js",
+    "create-new-snippet": "./bin/newSnippet.js"
   }
 }
