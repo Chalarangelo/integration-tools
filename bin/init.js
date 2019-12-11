@@ -13,7 +13,7 @@ console.log(
 );
 
 inquirer
-  .prompt(questions)
+  .prompt(questions(process.cwd()))
   .then(
     answers => {
       initialize(answers, process.cwd(), __dirname);

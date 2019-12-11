@@ -1,6 +1,6 @@
 # Contribution Guidelines
 
-**30 seconds of React** is a community effort, so feel free to contribute in any way you can. Every contribution helps!
+**30 seconds of repoLongLang** is a community effort, so feel free to contribute in any way you can. Every contribution helps!
 
 Here's what you can do to help:
 
