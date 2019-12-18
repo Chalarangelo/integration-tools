@@ -1,6 +1,6 @@
 {
   "name": "@30-seconds/integration-tools",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Integration tools for 30-seconds projects.",
   "main": "index.js",
   "scripts": {
