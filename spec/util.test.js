@@ -449,8 +449,8 @@ describe('lib/util', () => {
       });
 
       it('runs the correct git commands', () => {
-        expect(calls[0]).toBe('git log --diff-filter=A --pretty=format:%at -- snippets/mySnippet.md');
-        expect(calls[1]).toBe('git log -n 1 --pretty=format:%at -- snippets/mySnippet.md');
+        expect(calls[0]).toBe('git log --diff-filter=A --pretty=format:%at -- snippets/mySnippet.md | head -1');
+        expect(calls[1]).toBe('git log -n 1 --pretty=format:%at -- snippets/mySnippet.md | head -1');
         expect(calls[2]).toBe('git log --pretty=%H -- snippets/mySnippet.md');
         expect(calls[3]).toBe('git log --pretty=%an -- snippets/mySnippet.md');
       });
