@@ -175,50 +175,6 @@ describe('lib/util', () => {
       });
     });
 
-    it('prepTaggedData is a function', () => {
-      expect(util.prepTaggedData).toBeInstanceOf(Function);
-    });
-
-    describe('prepTaggedData', () => {
-      it('removes duplicate primary tags', () => {
-        const tagDbData = {
-          'snippetA': ['array', 'function', 'intermediate'],
-          'snippetB': ['array', 'object', 'beginner'],
-        };
-        const outData = util.prepTaggedData(tagDbData);
-        expect(outData.length).toBe(1);
-      });
-
-      it('contains all of the unique primary tags from the data', () => {
-        const tagDbData = {
-          'snippetA': ['array', 'function', 'intermediate'],
-          'snippetB': ['object', 'array', 'beginner'],
-        };
-        const outData = util.prepTaggedData(tagDbData);
-        expect(outData.length).toBe(2);
-      });
-
-      it('alphabetizes the  primary tags from the data', () => {
-        const tagDbData = {
-          'snippetA': ['object', 'array', 'intermediate'],
-          'snippetB': ['array', 'function', 'beginner'],
-        };
-        const outData = util.prepTaggedData(tagDbData);
-        expect(outData).toEqual(['array', 'object']);
-      });
-
-      it('handles the special case of Uncategorized', () => {
-        const tagDbData = {
-          'snippetA': ['object', 'array', 'intermediate'],
-          'snippetB': ['uncategorized', 'function', 'beginner'],
-          'snippetC': ['utility', 'function', 'beginner'],
-        };
-        const outData = util.prepTaggedData(tagDbData);
-        expect(outData).toEqual(['object', 'utility', 'uncategorized']);
-      });
-    });
-  });
-
   describe('snippetParser', () => {
     it('getFilesInDir is a function', () => {
       expect(util.getFilesInDir).toBeInstanceOf(Function);
