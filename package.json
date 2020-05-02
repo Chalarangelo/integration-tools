@@ -2,10 +2,6 @@
   "name": "@30-seconds/integration-tools",
   "version": "2.2.0",
   "description": "Integration tools for 30-seconds projects.",
-  "main": "index.js",
-  "scripts": {
-    "test": "jest --coverage"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/30-seconds/integration-tools.git"
@@ -22,20 +18,10 @@
   },
   "homepage": "https://github.com/30-seconds/integration-tools#readme",
   "dependencies": {
-    "@babel/core": "^7.7.4",
-    "front-matter": "^3.0.2",
     "fs-extra": "^8.1.0",
-    "inquirer": "^7.0.0",
-    "kleur": "^3.0.3",
-    "node-sass": "^4.13.0"
-  },
-  "devDependencies": {
-    "babel-eslint": "^10.0.3",
-    "eslint": "^6.7.1",
-    "jest": "^24.9.0"
+    "inquirer": "^7.0.0"
   },
   "bin": {
-    "extract-snippet-data": "./bin/extract.js",
     "init-content-repo": "./bin/init.js",
     "create-new-snippet": "./bin/newSnippet.js"
   }

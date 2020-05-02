@@ -2,38 +2,23 @@
 
 const fs = require('fs-extra');
 const path = require('path');
-const { makeSnippet } = require('../index');
-const { blue, green, red } = require('kleur');
-const { DEFAULT_CONFIG } = require('../params');
-
-// Log a message when the script is run
-console.log(
-  `${blue(
-    'integration-tools [INIT] '
-  )} Snippet creation procedure starting...`
-);
-
-let config, template, snippetName;
 
 // Load configuration and log a message when done or on error.
 try {
-  config = require(path.join(process.cwd(), 'config.js'));
-  template = fs.readFileSync(path.join(process.cwd(), 'snippet-template.md'), 'utf8');
-  snippetName = process.argv[2];
-  console.log(
-    `${green(
-      'integration-tools [DONE] '
-    )} Snippet creation procedure has loaded the configuration and template files.`
-  );
+  const template = fs.readFileSync(path.join(process.cwd(), 'snippet-template.md'), 'utf8');
+
+  const snippetDirectory = fs.existsSync(path.join(process.cwd(), 'blog_posts')) ? 'blog_posts' : 'snippets';
+  if(!fs.existsSync(path.join(process.cwd(), snippetDirectory)))
+    fs.mkdirSync(path.join(process.cwd(), snippetDirectory));
+
+  const snippetName = process.argv[2];
+
+  const fileData = template.replace(/title:\s*.*\n/, `title: ${snippetName}\n`);
+
+  fs.writeFileSync(path.join(process.cwd(), snippetDirectory, `${snippetName}.md`), fileData );
 } catch (err) {
-  console.log(`${red('integration-tools [ERRR]  ')} Snippet creation prodecure has encountered an error while loading the configuration and template files: ${err}`);
+  console.log(`Snippet creation exited with error: ${err}`);
   process.exit(1);
 }
 
-makeSnippet(Object.assign({}, DEFAULT_CONFIG, config ), template, snippetName, process.cwd());
-
-console.log(
-  `${blue(
-    'integration-tools [EXIT] '
-  )} Snippet creation procedure exiting...`
-);
+console.log('Snippet creation complete');
